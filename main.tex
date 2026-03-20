@@ -570,24 +570,19 @@ input data so that neural networks can perceive them.
 
 
 
-\begin{figure*}
+\begin{table*}[h!]
 	\centering
-	\begin{subfigure}{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/1q-bench}
-		\caption{1-qubit synthesis with $\epsilon=0.01$}
-        \label{fig:onequbit}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/2q-bench}
-		\caption{2-qubit synthesis with $\epsilon=0.5$}
-        \label{fig:twoqubit}
-	\end{subfigure}
-	\caption{A* search vs \textbf{trasyn} for synthesis of arbitrary 1 and 2-qubit unitaries}
+	\caption{A* search vs \textbf{trasyn} for synthesis of specific circuits}
 	\label{fig:benchmark}
-\end{figure*}
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Circuit} & \textbf{Num Qubits} & $\boldsymbol{\epsilon}$ & \textbf{T-count} & \textbf{Gate Count} & \textbf{Time (s)} \\
+		\hline
+		% TODO: fill in circuit-specific results
+		& & & & & \\
+		\hline
+	\end{tabular}
+\end{table*}
 
 We use HER to generate training examples and, additionally, attempt to solve problem instances with a greedy
 policy using the target network and add states seen during solution attempts to the training set.
