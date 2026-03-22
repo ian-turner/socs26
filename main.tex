@@ -576,7 +576,7 @@ input data so that neural networks can perceive them.
 \begin{table*}[h!]
 	\centering
 	\begin{tabular}{lcccccccc}
-		\hline
+		\hline\noalign{\vskip 3pt}
 		& & \multicolumn{2}{c}{\textbf{T-count}} & \multicolumn{2}{c}{\textbf{Gate Count}} & \multicolumn{2}{c}{\textbf{Time (s)}} \\
 		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
 		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A* search} & \textbf{trasyn} & \textbf{A* search} & \textbf{trasyn} & \textbf{A* search} & \textbf{trasyn} \\
@@ -648,8 +648,28 @@ reducing gate count and $T$ count by about a factor of 3 on average, shown in Fi
 However, the search time for A* search in this setting is much less consistent.
 Most instances finish within a few seconds, within an order of magnitude of the \textbf{trasyn} time, but some problem instances take several minutes to finish, although A* search is still able to find a circuit in all cases.
 
-
-
+\begin{table*}[h!]
+	\centering
+	\begin{tabular}{lccccccc}
+		\hline\noalign{\vskip 3pt}
+		& & \multicolumn{2}{c}{\textbf{T-count}} & \multicolumn{2}{c}{\textbf{Gate Count}} & \multicolumn{2}{c}{\textbf{Time (s)}} \\
+		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
+		\textbf{Circuit} & \textbf{\# qubits} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} \\
+		\hline\\[-6pt]
+		CZ & 2 & & & & & & \\[3pt]
+		CH & 2 & & & & & & \\[3pt]
+		CS & 2 & & & & & & \\[3pt]
+		$CR_2$ & 2 & & & & & & \\[3pt]
+		$CR_z(\pi/2)$ & 2 & & & & & & \\[3pt]
+		CCX & 3 & & & & & & \\[3pt]
+		CCZ & 3 & & & & & & \\[3pt]
+		Fredkin & 3 & & & & & & \\[3pt]
+		CCH & 3 & & & & & & \\[3pt]
+		\hline
+	\end{tabular}
+	\caption{A* search vs \textbf{Synthetiq} for multi-qubit synthesis of specific circuits}
+	\label{tab:multiqubit_benchmark}
+\end{table*}
 
 
 
