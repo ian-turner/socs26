@@ -6,3 +6,4 @@
 *.fls
 *.pdf
 /**/.ipynb_checkpoints
+/**/*.swp
