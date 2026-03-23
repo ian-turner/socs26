@@ -562,7 +562,7 @@ input data so that neural networks can perceive them.
 		\hline\noalign{\vskip 3pt}
 		& & \multicolumn{2}{c}{\textbf{T-count}} & \multicolumn{2}{c}{\textbf{Gate Count}} & \multicolumn{2}{c}{\textbf{Time (s)}} \\
 		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
-		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A* search} & \textbf{trasyn} & \textbf{A* search} & \textbf{trasyn} & \textbf{A* search} & \textbf{trasyn} \\
+		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} \\
 		\hline\\[-6pt]
 		% TODO: fill in circuit-specific results
 		$R_z(\pi/8)$  & 0.01  & 19 & 18 & 44 & 46 & 1.79 & 0.901 \\[3pt]
@@ -575,7 +575,7 @@ input data so that neural networks can perceive them.
 		$R_z(\pi/64)$ & 0.005 & 19 & 19 & 47 & 48 & 3.40  & 0.385 \\[3pt]
 		\hline
 	\end{tabular}
-	\caption{A* search vs \textbf{trasyn} for synthesis of specific circuits}
+	\caption{A* search vs \textbf{trasyn} for synthesis of $R_z$ gates}
 	\label{fig:benchmark}
 \end{table*}
 
@@ -632,23 +632,23 @@ Most instances finish within a few seconds, within an order of magnitude of the 
 
 \begin{table*}[h!]
 	\centering
-	\begin{tabular}{lccccccc}
+	\begin{tabular}{lcccccccccc}
 		\hline\noalign{\vskip 3pt}
-		& & \multicolumn{2}{c}{\textbf{T-count}} & \multicolumn{2}{c}{\textbf{Gate Count}} & \multicolumn{2}{c}{\textbf{Time (s)}} \\
-		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
-		\textbf{Circuit} & \textbf{\# qubits} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} \\
+		& & \multicolumn{3}{c}{\textbf{T-count}} & \multicolumn{3}{c}{\textbf{Gate Count}} & \multicolumn{3}{c}{\textbf{Time (s)}} \\
+		\cmidrule(lr){3-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11}
+		\textbf{Circuit} & \textbf{\#qubits} & \textbf{A*} & \textbf{Synthetiq} & \textbf{Quokka\#} & \textbf{A*} & \textbf{Synthetiq} & \textbf{Quokka\#} & \textbf{A*} & \textbf{Synthetiq} & \textbf{Quokka\#} \\
 		\hline\\[-6pt]
-		CZ & 2 & 0 & 0 & 3 & 3 & 0.741 & 0.342 \\[3pt]
-		CH & 2 & 2 & 2 & 7 & 7 & 0.518 & 0.171 \\[3pt]
-		$CR_2$ & 2 & 3 & 3 & 5 & 5 & 2.316 & 0.201 \\[3pt]
-		$CR_z(\pi/2)$ & 2 & 2 & 2 & 4 & 4 & 1.369 & 0.542 \\[3pt]
-		CCX & 3 & 7 & 7 & 16 & 15 & 74.052 & 7.490 \\[3pt]
-		CCZ & 3 & 7 & 7 & 13 & 16 & 24.279 & 5.718 \\[3pt]
-		Fredkin & 3 & 7 & 7 & 19 & 19 & 75.574 & 19.025 \\[3pt]
-		CCH & 3 & 9 & 9 & 23 & 25 & 7.650 & 1304.018 \\[3pt]
+		CZ & 2 & 0 & 0 & 0 & 3 & 3 & 3 & 0.741 & 0.342 & 6.027 \\[3pt]
+		CH & 2 & 2 & 2 & - & 7 & 7 & - & 0.518 & 0.171 & - \\[3pt]
+		CS & 2 & 3 & 3 & 3 & 5 & 5 & 5 & 2.316 & 0.201 & 1.837 \\[3pt]
+		$CR_z(\pi/2)$ & 2 & 2 & 2 & 2 & 4 & 4 & 4 & 1.369 & 0.542 & 2.470 \\[3pt]
+		CCX & 3 & 7 & 7 & - & 16 & 15 & - & 74.052 & 7.490 & - \\[3pt]
+		CCZ & 3 & 7 & 7 & - & 13 & 16 & - & 24.279 & 5.718 & - \\[3pt]
+		Fredkin & 3 & 7 & 7 & - & 19 & 19 & - & 75.574 & 19.025 & - \\[3pt]
+		CCH & 3 & 9 & 9 & - & 23 & 25 & - & 7.650 & 1304.018 & - \\[3pt]
 		\hline
 	\end{tabular}
-	\caption{A* search vs \textbf{Synthetiq} for multi-qubit synthesis of specific circuits}
+	\caption{A* search vs \textbf{Synthetiq} for multi-qubit synthesis of controlled gates}
 	\label{tab:multiqubit_benchmark}
 \end{table*}
 
