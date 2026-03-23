@@ -176,8 +176,9 @@
 % TODO: can change title to focus on Clifford + T?
 Quantum circuit synthesis is the process of implementing
 a quantum algorithm with a given gate set. In this paper, we first show how this problem can be posed as a pathfinding problem. Next, we do an empirical evaluation of which problem instance encodings result in better coverage when training a heuristic function with DeepCubeA. Then, we use the best encoding found to learn a heuristic function for quantum circuit synthesis for one to three qubit Clifford+T circuits and solve problem instances with batch weighed A* search. We compare our approach against state-of-the-art quantum circuit synthesis tools
-\textbf{trasyn} and \textbf{synthetiq}.
+\textbf{trasyn}, \textbf{synthetiq}, and \textbf{Quokka\#}.
 We show that our approach is equal with \textbf{trasyn} and \textbf{synthetiq} in terms of coverage while being comparable (and sometimes superior) to \textbf{trasyn} in terms of gate count and T count.
+We also show that our approach is competetive with \textbf{synthetiq} in terms of coverage, gate count, and T-count, and surpasses \textbf{Quokka\#} in all metrics.
 \end{abstract}
 
 
@@ -409,7 +410,9 @@ We build on hindsight experience replay (HER) \cite{andrychowicz2017hindsight} t
 \section{Related Work}
 
 Many methods for unitary synthesis have been explored with domain-specific synthesizers. The programs \textbf{synthetiq} \cite{paradis2024synthetiq}
-and \textbf{trasyn} \cite{hao2025reducing} use a gate sampling search guided by the unitary distance function. The program \textbf{gridsynth} \cite{ross2014optimal} uses advanced domain-specific knowledge to analytically synthesize optimal circuits, but is limited to only one-qubit $R_z(\theta)$ gates. These methods all compile unitaries with the objective of reducing the number of  $T$ gates, given that $T$ gates are dramatically more expensive to produce on quantum hardware than the Clifford gates.
+and \textbf{trasyn} \cite{hao2025reducing} use a gate sampling search guided by the unitary distance function. The program \textbf{gridsynth} \cite{ross2014optimal} uses advanced domain-specific knowledge to analytically synthesize optimal circuits, but is limited to only one-qubit $R_z(\theta)$ gates.
+The program \textbf{Quokka\#} \cite{zak2025reducing} uses \#SAT as a basis for quantum synthesis.
+These methods all compile unitaries with the objective of reducing the number of  $T$ gates, given that $T$ gates are dramatically more expensive to produce on quantum hardware than the Clifford gates.
 
 
 On the other hand, deep reinforcement learning and heuristic search has been used to synthesize quantum circuits. \citet{zhang2020topological} build on DeepCubeA to learn a heuristic function for topological quantum compilation of Fibonacci anyons. \cite{bao2024twisty} learn a heuristic function that is then used with beam search for synthesis with Clifford gates. \cite{chen2024efficient} use deep Q-learning \cite{watkins1992q,mnih2015human} and Q* search \cite{agostinelli2024q} to perform one and two-qubit synthesis for Fibonacci anyons, HRC gate set \cite{harrow2002efficient}, and the Clifford + T gate set. \citet{weiden2025making} explores modifications to the neural networks
@@ -648,7 +651,7 @@ Most instances finish within a few seconds, within an order of magnitude of the 
 		CCH & 3 & 9 & 9 & - & 23 & 25 & - & 7.650 & 1304.018 & - \\[3pt]
 		\hline
 	\end{tabular}
-	\caption{A* search vs \textbf{Synthetiq} for multi-qubit synthesis of controlled gates}
+	\caption{A* search vs \textbf{Synthetiq} and \textbf{Quokka\#} for synthesis of controlled gates. Each method is given a 1-hour time limit.}
 	\label{tab:multiqubit_benchmark}
 \end{table*}
 
