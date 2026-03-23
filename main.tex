@@ -178,7 +178,7 @@ Quantum circuit synthesis is the process of implementing
 a quantum algorithm with a given gate set. In this paper, we first show how this problem can be posed as a pathfinding problem. Next, we do an empirical evaluation of which problem instance encodings result in better coverage when training a heuristic function with DeepCubeA. Then, we use the best encoding found to learn a heuristic function for quantum circuit synthesis for one to three qubit Clifford+T circuits and solve problem instances with batch weighed A* search. We compare our approach against state-of-the-art quantum circuit synthesis tools
 \textbf{trasyn}, \textbf{synthetiq}, and \textbf{Quokka\#}.
 We show that our approach is equal with \textbf{trasyn} and \textbf{synthetiq} in terms of coverage, gate count, and T-count while
-being comparable in terms of time, and equal or superior to \textbf{Quokka\#} along all metrics.
+being comparable in terms of time, and equal or superior to \textbf{Quokka\#} along all metrics for most cases.
 \end{abstract}
 
 
@@ -570,14 +570,14 @@ input data so that neural networks can perceive them.
 		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} \\
 		\hline\\[-6pt]
 		% TODO: fill in circuit-specific results
-		$R_z(\pi/8)$  & 0.01  & 19 & 18 & 44 & 46 & 1.79 & 0.901 \\[3pt]
-		$R_z(\pi/16)$ & 0.01  & 17 & 17 & 39 & 44 & 0.36 & 0.267 \\[3pt]
-		$R_z(\pi/32)$ & 0.01  & 19 & 18 & 46 & 42 & 0.39 & 0.300 \\[3pt]
-		$R_z(\pi/64)$ & 0.01  & 15 & 15 & 38 & 39 & 0.25 & 0.199 \\[3pt]
-		$R_z(\pi/8)$  & 0.005 & 19 & 18 & 44 & 46 & 9.57  & 1.02  \\[3pt]
-		$R_z(\pi/16)$ & 0.005 & 20 & 20 & 49 & 46 & 12.24 & 0.574 \\[3pt]
-		$R_z(\pi/32)$ & 0.005 & 19 & 19 & 47 & 46 & 2.02  & 0.387 \\[3pt]
-		$R_z(\pi/64)$ & 0.005 & 19 & 19 & 47 & 48 & 3.40  & 0.385 \\[3pt]
+		$R_z(\pi/8)$  & 0.01  & 18 & 18 & \textbf{43} & 46 & 7.225  & 0.901 \\[3pt]
+		$R_z(\pi/16)$ & 0.01  & 17 & 17 & \textbf{39} & 44 & 6.585  & 0.267 \\[3pt]
+		$R_z(\pi/32)$ & 0.01  & 18 & 18 & 42 & 42 & 6.883  & 0.300 \\[3pt]
+		$R_z(\pi/64)$ & 0.01  & 15 & 15 & \textbf{38} & 39 & 6.398  & 0.199 \\[3pt]
+		$R_z(\pi/8)$  & 0.005 & 18 & 18 & \textbf{45} & 46 & 8.628  & 1.020 \\[3pt]
+		$R_z(\pi/16)$ & 0.005 & 20 & 20 & \textbf{45} & 46 & 40.326 & 0.574 \\[3pt]
+		$R_z(\pi/32)$ & 0.005 & 19 & 19 & \textbf{45} & 46 & 6.390  & 0.387 \\[3pt]
+		$R_z(\pi/64)$ & 0.005 & 19 & 19 & \textbf{45} & 48 & 6.784  & 0.385 \\[3pt]
 		\hline
 	\end{tabular}
 	\caption{A* search vs \textbf{trasyn} for synthesis of $R_z$ gates}
