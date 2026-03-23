@@ -176,8 +176,8 @@
 % TODO: can change title to focus on Clifford + T?
 Quantum circuit synthesis is the process of implementing
 a quantum algorithm with a given gate set. In this paper, we first show how this problem can be posed as a pathfinding problem. Next, we do an empirical evaluation of which problem instance encodings result in better coverage when training a heuristic function with DeepCubeA. Then, we use the best encoding found to learn a heuristic function for quantum circuit synthesis for one to three qubit Clifford+T circuits and solve problem instances with batch weighed A* search. We compare our approach against state-of-the-art quantum circuit synthesis tools
-\textbf{trasyn}, \textbf{synthetiq}, and \textbf{Quokka\#}.
-We show that our approach is equal with \textbf{trasyn} and \textbf{synthetiq} in terms of coverage, gate count, and T-count while
+\textbf{TRASYN}, \textbf{Synthetiq}, and \textbf{Quokka\#}.
+We show that our approach is equal with \textbf{TRASYN} and \textbf{Synthetiq} in terms of coverage, gate count, and T-count while
 being comparable in terms of time, and equal or superior to \textbf{Quokka\#} along all metrics for most cases.
 \end{abstract}
 
@@ -207,7 +207,7 @@ is the identity matrix, the goal is a given quantum algorithm, the transitions a
 are determined by a combination of quantum gate execution time and the noise the gate introduces.
 
 
-Finding quantum circuits that implement a given algorithm is a non-trivial task that can sometimes take state-of-the-art methods several hours, even for single qubit operators \cite{paradis2024synthetiq}.
+Finding quantum circuits that implement a given algorithm is a non-trivial task that can sometimes take state-of-the-art methods several hours, even for single qubit operators \cite{paradis2024Synthetiq}.
 Given that we can pose this as a pathfinding problem, we build on the DeepCubeA algorithm \cite{agostinelli2019solving}
 and hindsight experience replay (HER) \cite{andrychowicz2017hindsight} to use deep reinforcement learning to learn
 a heuristic function that maps a given quantum circuit and quantum goal algorithm to an estimate of the cost of a
@@ -215,7 +215,7 @@ shortest path (i.e. ``cost-to-go'') from the given circuit to a circuit that imp
 
 Since we specify quantum algorithms with floating point numbers, we first do an empirical study on the best representation of a quantum algorithm to a deep neural network (DNN) \cite{schmidhuber2015deep, lecun2015deep} trained with reinforcement learning to synthesize circuits. We find that simply giving the raw floating point numbers to the DNN results in poor performance compared to encodings such as the Euler angle encoding \cite{diaconis2017hurwitz}.
 We then use the best encoding found to learn a heuristic function and solve problem instances with batch weighted A* search.
-When comparing our results to domain-specific solvers \textbf{trasyn}, \textbf{Synthetiq}, and \textbf{Quokka\#}, we find that we maintain 100\% coverage (i.e. solve 100\% of problem instances) while also having similar gate counts and T-counts, and remaining competetive with synthesis time.
+When comparing our results to domain-specific solvers \textbf{TRASYN}, \textbf{Synthetiq}, and \textbf{Quokka\#}, we find that we maintain 100\% coverage (i.e. solve 100\% of problem instances) while also having similar gate counts and T-counts, and remaining competetive with synthesis time.
 
 
 
@@ -411,16 +411,16 @@ We build on hindsight experience replay (HER) \cite{andrychowicz2017hindsight} t
 %% SECTION Related work
 \section{Related Work}
 
-Many methods for unitary synthesis have been explored with domain-specific synthesizers. The programs \textbf{synthetiq} \cite{paradis2024synthetiq}
-and \textbf{trasyn} \cite{hao2025reducing} use a gate sampling search guided by the unitary distance function. The program \textbf{gridsynth} \cite{ross2014optimal} uses advanced domain-specific knowledge to analytically synthesize optimal circuits, but is limited to only one-qubit $R_z(\theta)$ gates.
+Many methods for unitary synthesis have been explored with domain-specific synthesizers. The programs \textbf{Synthetiq} \cite{paradis2024Synthetiq}
+and \textbf{TRASYN} \cite{hao2025reducing} use a gate sampling search guided by the unitary distance function. The program \textbf{gridsynth} \cite{ross2014optimal} uses advanced domain-specific knowledge to analytically synthesize optimal circuits, but is limited to only one-qubit $R_z(\theta)$ gates.
 The program \textbf{Quokka\#} \cite{zak2025reducing} uses \#SAT as a basis for quantum synthesis.
 These methods all compile unitaries with the objective of reducing the number of  $T$ gates, given that $T$ gates are dramatically more expensive to produce on quantum hardware than the Clifford gates.
 
 
 On the other hand, deep reinforcement learning and heuristic search has been used to synthesize quantum circuits. \citet{zhang2020topological} build on DeepCubeA to learn a heuristic function for topological quantum compilation of Fibonacci anyons. \cite{bao2024twisty} learn a heuristic function that is then used with beam search for synthesis with Clifford gates. \cite{chen2024efficient} use deep Q-learning \cite{watkins1992q,mnih2015human} and Q* search \cite{agostinelli2024q} to perform one and two-qubit synthesis for Fibonacci anyons, HRC gate set \cite{harrow2002efficient}, and the Clifford + T gate set. \citet{weiden2025making} explores modifications to the neural networks
-and training processes used in Clifford+T synthesis.  \citet{rietsch2024unitary} explores applications of reinforcement learning to Clifford + T synthesis for multiple qubits and find they are competitive with methods, such as synthetiq, in terms of gate length, but are 10 to 100 times slower for 2 and 3 qubits. 
+and training processes used in Clifford+T synthesis.  \citet{rietsch2024unitary} explores applications of reinforcement learning to Clifford + T synthesis for multiple qubits and find they are competitive with methods, such as Synthetiq, in terms of gate length, but are 10 to 100 times slower for 2 and 3 qubits. 
 
-In contrast with previous methods for Clifford+T synthesis, we first perform a systematic empirical study on what DNN encodings perform best for quantum circuit synthesis. After training the heuristic function, we use BWAS, to take advantage of paralellism provided by GPUs, which other methods often do not take advantage of. As a result, to the best of our knowledge, we are the first machine learning-based approach that is competitive with, and sometimes superior to, domain-specific programs, such as \textbf{trasyn}, in terms of coverage and gate count while also being within an order of magnitude in terms of speed. 
+In contrast with previous methods for Clifford+T synthesis, we first perform a systematic empirical study on what DNN encodings perform best for quantum circuit synthesis. After training the heuristic function, we use BWAS, to take advantage of paralellism provided by GPUs, which other methods often do not take advantage of. As a result, to the best of our knowledge, we are the first machine learning-based approach that is competitive with, and sometimes superior to, domain-specific programs, such as \textbf{TRASYN}, in terms of coverage and gate count while also being within an order of magnitude in terms of speed. 
 
 % While these previous approaches assume a fixed goal of the identity matrix and use reverse quantum gates to find a path from a specified algorithm to the identity, we instead find a path from the identity to the specified algorithm using the given gate set. This then allows future iterations of our work to include the specification of sets of goal states through partial goal specification or abstraction through formal logic \cite{agostinelli2024specifying,agostinelli2025conflict}, offering greater flexibility to practitioners and reducing the knowledge required to specify an algorithm.
 
@@ -567,7 +567,7 @@ input data so that neural networks can perceive them.
 		\hline\noalign{\vskip 3pt}
 		& & \multicolumn{2}{c}{\textbf{T-count}} & \multicolumn{2}{c}{\textbf{Gate Count}} & \multicolumn{2}{c}{\textbf{Time (s)}} \\
 		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
-		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} & \textbf{A*} & \textbf{trasyn} \\
+		\textbf{Circuit} & $\boldsymbol{\epsilon}$ & \textbf{A*} & \textbf{TRASYN} & \textbf{A*} & \textbf{TRASYN} & \textbf{A*} & \textbf{TRASYN} \\
 		\hline\\[-6pt]
 		% TODO: fill in circuit-specific results
 		$R_z(\pi/8)$  & 0.01  & 18 & 18 & \textbf{43} & 46 & 7.225  & 0.901 \\[3pt]
@@ -580,7 +580,7 @@ input data so that neural networks can perceive them.
 		$R_z(\pi/64)$ & 0.005 & 19 & 19 & \textbf{45} & 48 & 6.784  & 0.385 \\[3pt]
 		\hline
 	\end{tabular}
-	\caption{A* search vs \textbf{trasyn} for synthesis of $R_z$ gates}
+	\caption{A* search vs \textbf{TRASYN} for synthesis of $R_z$ gates}
 	\label{tab:one_qubit_benchmark}
 \end{table*}
 
@@ -618,14 +618,14 @@ For exact synthesis we do the same, except we generate the dataset using a rando
 To evaluate encodings, we train a heuristic function for single qubit approximate synthesis with $\epsilon=0.01$. We train the heuristic function with a flat representation of floating point numbers, as well as with a combination of Euler angle encodings, quaternion encodings, and NeRF. Results are shown in Figure \ref{fig:training}. The results show that a combination of Euler and NeRF encodings performs the best, where NeRF uses $L=15$.
 
 \subsection{Single-Qubit Synthesis}
-%We trained a model for $\epsilon=0.01$, given that this is in the middle of the `comfort zone' for \textbf{trasyn},
+%We trained a model for $\epsilon=0.01$, given that this is in the middle of the `comfort zone' for \textbf{TRASYN},
 %although a threshold of about $\epsilon=0.001$ for synthesis is ideal for near-term quantum computers \cite{hao2025reducing}.
 
-To solve problem instances for single qubit synthesis, we perform BWAS with a batch size of 100 and a weight of 1.0 and compared our results to \textbf{trasyn}.
-The results in Table \ref{tab:one_qubit_benchmark} show that BWAS is able to find the optimal T-count circuit in most cases, and only has one or two more $T$ gates than \textbf{trasyn}, otherwise.
+To solve problem instances for single qubit synthesis, we perform BWAS with a batch size of 100 and a weight of 1.0 and compared our results to \textbf{TRASYN}.
+The results in Table \ref{tab:one_qubit_benchmark} show that BWAS is able to find the optimal T-count circuit in most cases, and only has one or two more $T$ gates than \textbf{TRASYN}, otherwise.
 However, BWAS is able to find a circuit with a better gate count in many of the cases.
-This is likely because \textbf{trasyn} optimizes $T$-count, but does not place the same importance on overall gate count, since $T$ gates are considered much more expensive than Clifford gates.
-Both A* search and \textbf{trasyn} were able to find a circuit in all cases, usually in a few seconds, although A* search is still about 5-10 times slower than \textbf{trasyn} in some cases.
+This is likely because \textbf{TRASYN} optimizes $T$-count, but does not place the same importance on overall gate count, since $T$ gates are considered much more expensive than Clifford gates.
+Both A* search and \textbf{TRASYN} were able to find a circuit in all cases, usually in a few seconds, although A* search is still about 5-10 times slower than \textbf{TRASYN} in some cases.
 
 
 \subsection{Multi-Qubit Synthesis}
@@ -643,13 +643,14 @@ Both A* search and \textbf{trasyn} were able to find a circuit in all cases, usu
 		CH & 2 & 2 & 2 & - & 7 & 7 & - & 0.518 & 0.171 & - \\[3pt]
 		CS & 2 & 3 & 3 & 3 & 5 & 5 & 5 & 2.316 & 0.201 & 1.837 \\[3pt]
 		$CR_z(\pi/2)$ & 2 & 2 & 2 & 2 & 4 & 4 & 4 & 1.369 & 0.542 & 2.470 \\[3pt]
-		CCX & 3 & 7 & 7 & - & 16 & 15 & - & 74.052 & 7.490 & - \\[3pt]
-		CCZ & 3 & 7 & 7 & - & 13 & 16 & - & 24.279 & 5.718 & - \\[3pt]
+		CCX & 3 & 7 & 7 & - & 16 & \textbf{15} & - & 74.052 & 7.490 & - \\[3pt]
+		CCZ & 3 & 7 & 7 & - & \textbf{13} & 16 & - & 24.279 & 5.718 & - \\[3pt]
 		Fredkin & 3 & 7 & 7 & - & 19 & 19 & - & 75.574 & 19.025 & - \\[3pt]
-		CCH & 3 & 9 & 9 & - & 23 & 25 & - & 7.650 & 1304.018 & - \\[3pt]
+		CCH & 3 & 9 & 9 & - & \textbf{23} & 25 & - & 7.650 & 1304.018 & - \\[3pt]
 		\hline
 	\end{tabular}
-	\caption{A* search vs \textbf{Synthetiq} and \textbf{Quokka\#} for synthesis of controlled gates. Each method is given a 1-hour time limit.}
+	\caption{A* search vs \textbf{Synthetiq} and \textbf{Quokka\#} for synthesis of controlled gates. Each method is given a 1-hour time limit;
+			 circuits which were could not be synthesized within the time limit are marked with a `$-$'.}
 	\label{tab:multiqubit_benchmark}
 \end{table*}
 
@@ -678,6 +679,12 @@ The measurement-based quantum computing paradigm even offers an alternative to t
 where the same ‘resource state’ is prepared every time, and computation is carried out exclusively by measurements
 \cite{briegel2009measurement}.
 Future work could involve expanding the search space to include those more exotic circuits.
+
+We also have some preliminary evidence that aspects of our algorithm could be dramatically sped up by
+optimizing our synthesis pipeline, making changes such as batching matrix multiplications and running them on the GPU.
+Currently, only our neural network heuristic function is run on the GPU, and matrix multiplication is done
+individually per state on the CPU, which is likely to be slowing down the search when compared to GPU-optimized search
+methods such as \textbf{TRASYN}.
 
 
 Previous work that has built on DeepCubeA to perform quantum compiling used the reversibility of quantum gates
