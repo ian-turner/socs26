@@ -350,23 +350,6 @@ With the addition of the $T$ gate, the set will be able to approximate any unita
 
 
 
-\begin{figure*}
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{images/qc_U}
-		\caption{Arbitrary 2-qubit unitary}
-	\end{subfigure}
-	\begin{subfigure}{0.76\textwidth}
-		\includegraphics[width=\textwidth]{images/qc_U3}
-		\caption{Unitary decomposed into arbitrary 1-qubit unitaries and CNOTs}
-	\end{subfigure}
-	\\
-	\begin{subfigure}{\textwidth}
-		\includegraphics[width=\textwidth]{images/qc_tr}
-		\caption{Final compiled circuit after synthesizing each 1-qubit unitary with \textbf{trasyn}}
-	\end{subfigure}
-	\caption{Process for synthesis of multi-qubit circuits using \textbf{trasyn}}
-	\label{fig:trasyn_multi_process}
-\end{figure*}
 
 
 \paragraph{Unitary Synthesis}
@@ -642,7 +625,6 @@ although A* search is still about 5-10 times slower than \textbf{trasyn} in some
 For multi-qubit synthesis we found the best performance with the matrix representation and NeRF encoding. We trained a heuristic function for approximate synthesis with a threshold of $\epsilon=0.5$. We ran BWAS with a batch size of 100 and weight of 1.0. Given that \textbf{trasyn} cannot directly synthesize two-qubit circuits, we first have to decompose
 each two-qubit unitary into a sequence of one-qubit unitaries and CNOT gates,
 and then use \textbf{trasyn} to synthesize those one-qubit unitaries.
-This process is shown in Figure \ref{fig:trasyn_multi_process}.
 We find that directly synthesizing circuits with A* search dramatically outperforms \textbf{trasyn},
 reducing gate count and $T$ count by about a factor of 3 on average, shown in Figure \ref{fig:benchmark} (b).
 However, the search time for A* search in this setting is much less consistent.
@@ -656,15 +638,14 @@ Most instances finish within a few seconds, within an order of magnitude of the 
 		\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
 		\textbf{Circuit} & \textbf{\# qubits} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} & \textbf{A* search} & \textbf{Synthetiq} \\
 		\hline\\[-6pt]
-		CZ & 2 & & & & & & \\[3pt]
-		CH & 2 & & & & & & \\[3pt]
-		CS & 2 & & & & & & \\[3pt]
-		$CR_2$ & 2 & & & & & & \\[3pt]
-		$CR_z(\pi/2)$ & 2 & & & & & & \\[3pt]
-		CCX & 3 & & & & & & \\[3pt]
-		CCZ & 3 & & & & & & \\[3pt]
-		Fredkin & 3 & & & & & & \\[3pt]
-		CCH & 3 & & & & & & \\[3pt]
+		CZ & 2 & 0 & 0 & 3 & 3 & 0.741 & 0.342 \\[3pt]
+		CH & 2 & 2 & 2 & 7 & 7 & 0.518 & 0.171 \\[3pt]
+		$CR_2$ & 2 & 3 & 3 & 5 & 5 & 2.316 & 0.201 \\[3pt]
+		$CR_z(\pi/2)$ & 2 & 2 & 2 & 4 & 4 & 1.369 & 0.542 \\[3pt]
+		CCX & 3 & 7 & 7 & 16 & 15 & 74.052 & 7.490 \\[3pt]
+		CCZ & 3 & 7 & 7 & 13 & 16 & 24.279 & 5.718 \\[3pt]
+		Fredkin & 3 & 7 & 7 & 19 & 19 & 75.574 & 19.025 \\[3pt]
+		CCH & 3 & 9 & 9 & 23 & 25 & 7.650 & 1304.018 \\[3pt]
 		\hline
 	\end{tabular}
 	\caption{A* search vs \textbf{Synthetiq} for multi-qubit synthesis of specific circuits}
