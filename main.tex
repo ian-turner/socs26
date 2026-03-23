@@ -213,7 +213,9 @@ and hindsight experience replay (HER) \cite{andrychowicz2017hindsight} to use de
 a heuristic function that maps a given quantum circuit and quantum goal algorithm to an estimate of the cost of a
 shortest path (i.e. ``cost-to-go'') from the given circuit to a circuit that implements the goal algorithm.
 
-Since we specify quantum algorithms with floating point numbers, we first do an empirical study on the best representation of a quantum algorithm to a deep neural network (DNN) \cite{schmidhuber2015deep, lecun2015deep} trained with reinforcement learning to synthesize circuits. We find that simply giving the raw floating point numbers to the DNN results in poor performance compared to encodings such as the Euler angle encoding \cite{diaconis2017hurwitz}. We then use the best encoding found to learn a heuristic function and solve problem instances with batch weighted A* search. When comparing our results to a domain-specific solver, \textbf{trasyn}, we find that we maintain 100\% coverage (i.e. solve 100\% of problem instances) while also having similar gate count for 1 qubit synthesis and superior gate count for 2 qubit synthesis.
+Since we specify quantum algorithms with floating point numbers, we first do an empirical study on the best representation of a quantum algorithm to a deep neural network (DNN) \cite{schmidhuber2015deep, lecun2015deep} trained with reinforcement learning to synthesize circuits. We find that simply giving the raw floating point numbers to the DNN results in poor performance compared to encodings such as the Euler angle encoding \cite{diaconis2017hurwitz}.
+We then use the best encoding found to learn a heuristic function and solve problem instances with batch weighted A* search.
+When comparing our results to domain-specific solvers \textbf{trasyn}, \textbf{Synthetiq}, and \textbf{Quokka\#}, we find that we maintain 100\% coverage (i.e. solve 100\% of problem instances) while also having similar gate counts and T-counts, and remaining competetive with synthesis time.
 
 
 
@@ -579,7 +581,7 @@ input data so that neural networks can perceive them.
 		\hline
 	\end{tabular}
 	\caption{A* search vs \textbf{trasyn} for synthesis of $R_z$ gates}
-	\label{fig:benchmark}
+	\label{tab:one_qubit_benchmark}
 \end{table*}
 
 We use HER to generate training examples and, additionally, attempt to solve problem instances with a greedy
@@ -602,9 +604,10 @@ We record the percentage of test states solved by the greedy policy after each i
 \subsection{Testing \& Verification}
 
 
-For a testing dataset we use randomly generated 1000 unitaries on both one and two qubits using Qiskit.
+For a testing dataset for approximate synthesis we use 1000 unitaries randomly generated using Qiskit.
 We then run A* search and save the solved circuits in the OpenQASM format \cite{cross2022openqasm},
 and import them into Qiskit to confirm their closeness to the original operators.
+For exact synthesis we do the same, except we generate the dataset using a random walk.
 
 
 
@@ -618,20 +621,15 @@ To evaluate encodings, we train a heuristic function for single qubit approximat
 %We trained a model for $\epsilon=0.01$, given that this is in the middle of the `comfort zone' for \textbf{trasyn},
 %although a threshold of about $\epsilon=0.001$ for synthesis is ideal for near-term quantum computers \cite{hao2025reducing}.
 
-To solve problem instances for single qubit synthesis, we perform BWAS with a batch size of 100 and a weight of 1.0 and compared our results to \textbf{trasyn}. The results in Figure \ref{fig:onequbit} show that BWAS is able to find the optimal T-count circuit in about $90\%$ of cases, and only has one or two more $T$ gates than \textbf{trasyn}, otherwise. However, BWAS is able to find a circuit with a better gate count in about $70\%$ of cases. This is likely because \textbf{trasyn} optimizes $T$-count, but does not place the same importance on overall gate count, since $T$ gates are considered much more expensive than Clifford gates. Both A* search and \textbf{trasyn} were able to find a circuit in all cases, usually in a few seconds,
-although A* search is still about 5-10 times slower than \textbf{trasyn} in some cases.
+To solve problem instances for single qubit synthesis, we perform BWAS with a batch size of 100 and a weight of 1.0 and compared our results to \textbf{trasyn}.
+The results in Table \ref{tab:one_qubit_benchmark} show that BWAS is able to find the optimal T-count circuit in most cases, and only has one or two more $T$ gates than \textbf{trasyn}, otherwise.
+However, BWAS is able to find a circuit with a better gate count in many of the cases.
+This is likely because \textbf{trasyn} optimizes $T$-count, but does not place the same importance on overall gate count, since $T$ gates are considered much more expensive than Clifford gates.
+Both A* search and \textbf{trasyn} were able to find a circuit in all cases, usually in a few seconds, although A* search is still about 5-10 times slower than \textbf{trasyn} in some cases.
 
 
 \subsection{Multi-Qubit Synthesis}
 
-
-For multi-qubit synthesis we found the best performance with the matrix representation and NeRF encoding. We trained a heuristic function for approximate synthesis with a threshold of $\epsilon=0.5$. We ran BWAS with a batch size of 100 and weight of 1.0. Given that \textbf{trasyn} cannot directly synthesize two-qubit circuits, we first have to decompose
-each two-qubit unitary into a sequence of one-qubit unitaries and CNOT gates,
-and then use \textbf{trasyn} to synthesize those one-qubit unitaries.
-We find that directly synthesizing circuits with A* search dramatically outperforms \textbf{trasyn},
-reducing gate count and $T$ count by about a factor of 3 on average, shown in Figure \ref{fig:benchmark} (b).
-However, the search time for A* search in this setting is much less consistent.
-Most instances finish within a few seconds, within an order of magnitude of the \textbf{trasyn} time, but some problem instances take several minutes to finish, although A* search is still able to find a circuit in all cases.
 
 \begin{table*}[h!]
 	\centering
@@ -654,6 +652,16 @@ Most instances finish within a few seconds, within an order of magnitude of the 
 	\caption{A* search vs \textbf{Synthetiq} and \textbf{Quokka\#} for synthesis of controlled gates. Each method is given a 1-hour time limit.}
 	\label{tab:multiqubit_benchmark}
 \end{table*}
+
+
+
+For multi-qubit exact synthesis we found the best performance with the matrix representation and NeRF encoding.
+We trained models for 2 and 3-qubit synthesis, and compared our results against the synthesis programs
+\textbf{Synthetiq} and \textbf{Quokka\#}.
+We chose to use common controlled operators, given \textbf{Synthetiq} and \textbf{Quokka\#} use these as benchmarks in their papers as well.
+We ran BWAS with a batch size of 1 and weight of 1.0, and find that our approach achieves full coverage on the problem instances.
+A* search is even able to synthesize CCH over 100x faster than \textbf{Synthetiq}.
+Table \ref{tab:multiqubit_benchmark} shows the results.
 
 
 
