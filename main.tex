@@ -680,8 +680,8 @@ where the same ‘resource state’ is prepared every time, and computation is c
 \cite{briegel2009measurement}.
 Future work could involve expanding the search space to include those more exotic circuits.
 
-We also have some preliminary evidence that aspects of our algorithm could be dramatically sped up by
-optimizing our synthesis pipeline, making changes such as batching matrix multiplications and running them on the GPU.
+We also have some preliminary evidence that our algorithm could be dramatically sped up by
+optimizing our synthesis pipeline; making changes such as batching matrix multiplications and running them on the GPU.
 Currently, only our neural network heuristic function is run on the GPU, and matrix multiplication is done
 individually per state on the CPU, which is likely to be slowing down the search when compared to GPU-optimized search
 methods such as \textbf{TRASYN}.
